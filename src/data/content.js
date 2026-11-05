@@ -32,10 +32,10 @@ export const completionist = {
   name: "Completionist",
   tagline: "Track. Complete. Feel Accomplished.",
   description:
-    "The ultimate app for game completionists. Track your gaming progress, see your achievements and never leave a game unfinished again.",
+    "A simple way to track your gaming progress. Follow quests, collectables, locations and miscellaneous items, then choose what counts toward finishing a game.",
   points: [
-    "Track quests, collectables, locations and more with your favourite games",
-    "Unlock achievements",
-    "Stay motivated",
+    "Track quests, collectables, locations and miscellaneous items from your favourite games",
+    "Customize what counts towards your Completionist goal",
+    "View overall progress and link your Steam account for achievements",
   ],
 };

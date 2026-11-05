@@ -1,7 +1,27 @@
-const goals = [
-  { label: "Reach the main story", done: true },
-  { label: "Complete all side quests", done: false },
-  { label: "Unlock every achievement", done: false },
+const quests = [
+  { label: "War Never Changes", done: true },
+  { label: "Out Of Time", done: true },
+  { label: "Jewel Of The Commonwealth", done: true },
+  { label: "Unlikely Valentine", done: false },
+];
+
+const meters = [
+  { label: "Quests", value: 68, tone: "quests" },
+  { label: "Collectables", value: 42, tone: "collectables" },
+  { label: "Locations", value: 27, tone: "locations" },
+  { label: "Miscellaneous", value: 15, tone: "misc" },
+];
+
+const collections = [
+  { label: "Quests", on: true },
+  { label: "Collectables", on: false },
+  { label: "Locations", on: false },
+  { label: "Miscellaneous", on: true },
+];
+
+const dlc = [
+  { label: "The Pitt", on: true },
+  { label: "Operation: Anchorage", on: false },
 ];
 
 function StatusBar() {
@@ -32,162 +52,142 @@ function StatusBar() {
   );
 }
 
-function TabBar() {
+function TabBar({ active }) {
+  const icons = [
+    <svg key="track" viewBox="0 0 24 24">
+      <path d="M8 7h11M8 12h11M8 17h11" />
+      <circle cx="4.5" cy="7" r="1" fill="currentColor" stroke="none" />
+      <circle cx="4.5" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="4.5" cy="17" r="1" fill="currentColor" stroke="none" />
+    </svg>,
+    <svg key="tune" viewBox="0 0 24 24">
+      <path d="M4 8h16M4 16h16" />
+      <circle cx="9" cy="8" r="2.1" fill="#0c0a12" />
+      <circle cx="15" cy="16" r="2.1" fill="#0c0a12" />
+    </svg>,
+    <svg key="trophy" viewBox="0 0 24 24">
+      <path d="M7 4h10v2.2a5 5 0 0 1-2.2 4.1L12 12l-2.8-1.7A5 5 0 0 1 7 6.2V4z" />
+      <path d="M9 20h6M10 16.5h4" />
+      <path d="M8 4H5.5A2.5 2.5 0 0 0 7 8.2M16 4h2.5A2.5 2.5 0 0 1 17 8.2" />
+    </svg>,
+    <svg key="you" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="3.2" />
+      <path d="M5.5 19.2c1.2-3 3.5-4.5 6.5-4.5s5.3 1.5 6.5 4.5" />
+    </svg>,
+  ];
+
   return (
     <div className="tabbar">
-      <span className="tab active">
-        <svg viewBox="0 0 24 24">
-          <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z" />
-        </svg>
-      </span>
-      <span className="tab">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="7.2" />
-          <circle cx="12" cy="12" r="3.2" />
-          <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" />
-        </svg>
-      </span>
-      <span className="tab">
-        <svg viewBox="0 0 24 24">
-          <path d="M7 4h10v2.2a5 5 0 0 1-2.2 4.1L12 12l-2.8-1.7A5 5 0 0 1 7 6.2V4z" />
-          <path d="M9 20h6M10 16.5h4" />
-          <path d="M8 4H5.5A2.5 2.5 0 0 0 7 8.2M16 4h2.5A2.5 2.5 0 0 1 17 8.2" />
-        </svg>
-      </span>
-      <span className="tab">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="8" r="3.2" />
-          <path d="M5.5 19.2c1.2-3 3.5-4.5 6.5-4.5s5.3 1.5 6.5 4.5" />
-        </svg>
-      </span>
+      {icons.map((icon, index) => (
+        <span key={index} className={index === active ? "tab active" : "tab"}>
+          {icon}
+        </span>
+      ))}
       <span className="home-indicator" />
     </div>
   );
 }
 
-function Ring() {
-  const radius = 42;
-  const circumference = 2 * Math.PI * radius;
-  const progress = 0.72;
-
+function TrackPhone() {
   return (
-    <div className="ring">
-      <svg viewBox="0 0 110 110">
-        <defs>
-          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ddd6fe" />
-            <stop offset="55%" stopColor="#a78bfa" />
-            <stop offset="100%" stopColor="#7c3aed" />
-          </linearGradient>
-        </defs>
-        <circle className="ring-track" cx="55" cy="55" r={radius} />
-        <circle
-          className="ring-value"
-          cx="55"
-          cy="55"
-          r={radius}
-          strokeDasharray={`${circumference * progress} ${circumference}`}
-        />
-      </svg>
-      <div className="ring-label">
-        <strong>72%</strong>
-        <span>Complete</span>
-      </div>
-    </div>
-  );
-}
-
-function GoalsPhone() {
-  return (
-    <article className="phone phone-goals" aria-label="Completionist goals screen">
+    <article className="phone phone-track" aria-label="In-game progress tracking for Fallout 4">
       <div className="phone-screen">
         <StatusBar />
-        <h3 className="app-name">Completionist</h3>
-        <Ring />
-        <div className="stats">
-          <div className="stat">
-            <span className="stat-icon">
-              <svg viewBox="0 0 16 16">
-                <circle cx="8" cy="8" r="6.2" />
-                <path d="M5 8.1 7.1 10.2 11 6.2" />
-              </svg>
-            </span>
-            <span>
-              <strong>247</strong>
-              <em>Completed</em>
-            </span>
+        <div className="screen-head">
+          <div>
+            <p className="eyebrow">In-game progress</p>
+            <h3>Fallout 4</h3>
           </div>
-          <div className="stat">
-            <span className="stat-icon star">
-              <svg viewBox="0 0 16 16">
-                <path d="M8 2.2 9.6 6l4.1.3-3.2 2.7.9 4-3.4-2.1L4.6 13l.9-4L2.3 6.3 6.4 6 8 2.2z" />
-              </svg>
-            </span>
-            <span>
-              <strong>18</strong>
-              <em>In Progress</em>
-            </span>
-          </div>
+          <span className="count-pill">3/272</span>
         </div>
-        <div className="goals-head">
-          <span>Your Goals</span>
-          <span className="sort">
-            Sort
-            <svg viewBox="0 0 12 12">
-              <path d="M3 4.5 6 7.5 9 4.5" />
-            </svg>
-          </span>
+
+        <div className="meters" aria-label="Progress by category">
+          {meters.map((meter) => (
+            <div className="meter" key={meter.label}>
+              <span className="meter-name">
+                <i className={`tone tone-${meter.tone}`} />
+                {meter.label}
+              </span>
+              <span className="meter-bar">
+                <span className={`tone tone-${meter.tone}`} style={{ width: `${meter.value}%` }} />
+              </span>
+              <em>{meter.value}%</em>
+            </div>
+          ))}
         </div>
-        <ul className="goals">
-          {goals.map((goal) => (
-            <li key={goal.label} className={goal.done ? "done" : undefined}>
-              <span className="goal-box">{goal.done ? "✓" : ""}</span>
-              {goal.label}
+
+        <div className="section-head">
+          <span>Main Quests</span>
+          <span>3/11</span>
+        </div>
+        <div className="section-sub">
+          <span>Act I</span>
+          <span>3/6</span>
+        </div>
+        <ul className="quests">
+          {quests.map((quest) => (
+            <li key={quest.label} className={quest.done ? "done" : "open"}>
+              <span>{quest.label}</span>
+              <span className={quest.done ? "check done" : "check"}>
+                {quest.done ? (
+                  <svg viewBox="0 0 16 16">
+                    <path d="M3.8 8.2 6.6 11 12.2 5" />
+                  </svg>
+                ) : null}
+              </span>
             </li>
           ))}
         </ul>
-        <TabBar />
+        <TabBar active={0} />
       </div>
     </article>
   );
 }
 
-function AchievementsPhone() {
+function GoalPhone() {
   return (
-    <article className="phone phone-awards" aria-label="Completionist achievements screen">
+    <article className="phone phone-goal" aria-label="Customizable tracking and Steam achievements">
       <div className="phone-screen">
         <StatusBar />
-        <h3 className="app-name">Achievements</h3>
-        <div className="trophy-wrap">
-          <div className="trophy">
-            <svg viewBox="0 0 64 64">
-              <path
-                fill="url(#gold)"
-                d="M18 10h28v6c0 8-5 14-10 16v4h6v5H22v-5h6v-4c-5-2-10-8-10-16v-6z"
-              />
-              <path
-                fill="#f6d98a"
-                d="M18 12h-6c0 8 3 12 8 14M46 12h6c0 8-3 12-8 14"
-              />
-              <path fill="#e8b84a" d="M26 41h12v4H26zM22 47h20v5H22z" />
-              <defs>
-                <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#fff1c2" />
-                  <stop offset="45%" stopColor="#f6c453" />
-                  <stop offset="100%" stopColor="#d4922a" />
-                </linearGradient>
-              </defs>
-            </svg>
+        <div className="screen-head">
+          <div>
+            <p className="eyebrow">Your goal</p>
+            <h3>What counts</h3>
           </div>
         </div>
-        <p className="award-title">
-          You're a
-          <br />
-          Completionist!
-        </p>
-        <p className="award-copy">You're getting to unlock rare achievements.</p>
-        <span className="view-all">View All</span>
-        <TabBar />
+        <div className="game-select">
+          <span>Fallout 3</span>
+          <svg viewBox="0 0 12 12">
+            <path d="M4.5 2.5 8 6 4.5 9.5" />
+          </svg>
+        </div>
+
+        <div className="toggle-card">
+          {collections.map((item) => (
+            <div className="toggle-row" key={item.label}>
+              <span>{item.label}</span>
+              <span className={item.on ? "switch on" : "switch"} />
+            </div>
+          ))}
+          <p className="toggle-label">Enable or disable DLC</p>
+          {dlc.map((item) => (
+            <div className="toggle-row" key={item.label}>
+              <span>{item.label}</span>
+              <span className={item.on ? "switch on" : "switch"} />
+            </div>
+          ))}
+        </div>
+
+        <div className="steam-card">
+          <div>
+            <p>Steam Achievements</p>
+            <strong>Link Steam account</strong>
+          </div>
+          <svg viewBox="0 0 12 12">
+            <path d="M4.5 2.5 8 6 4.5 9.5" />
+          </svg>
+        </div>
+        <TabBar active={1} />
       </div>
     </article>
   );
@@ -198,10 +198,10 @@ export function Phones({ compact = false }) {
     <div className={compact ? "phone-pair compact" : "phone-pair"}>
       <div className="phone-glow" />
       <div className="phone-slot back">
-        <AchievementsPhone />
+        <GoalPhone />
       </div>
       <div className="phone-slot front">
-        <GoalsPhone />
+        <TrackPhone />
       </div>
     </div>
   );
