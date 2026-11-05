@@ -2,7 +2,7 @@ export const site = {
   name: "TTech Designs Ltd.",
   copyright: "© 2025 TTech Designs Ltd. All rights reserved.",
   email: "admin@ttechdesignsltd.co",
-  completionistUrl: "",
+  completionistUrl: "https://www.completionist.co",
 };
 
 export const features = [
